@@ -37,6 +37,12 @@
             background: linear-gradient(180deg, #0f172a, #111827);
             padding: 24px 18px;
             overflow-y: auto;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            width: 90px;
         }
 
         .logo {
@@ -44,6 +50,12 @@
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 35px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed .logo-text {
+            display: none;
         }
 
         .menu-title {
@@ -52,6 +64,11 @@
             text-transform: uppercase;
             margin: 20px 10px 12px;
             font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .sidebar.collapsed .menu-title {
+            display: none;
         }
 
         .sidebar a {
@@ -66,10 +83,22 @@
             transition: 0.3s;
             font-size: 15px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .sidebar a i {
             width: 22px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .sidebar.collapsed a {
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .sidebar.collapsed a span {
+            display: none;
         }
 
         .sidebar a:hover {
@@ -97,6 +126,11 @@
         .main {
             margin-left: 270px;
             min-height: 100vh;
+            transition: 0.3s;
+        }
+
+        .main.expanded {
+            margin-left: 90px;
         }
 
         /* TOPBAR */
@@ -110,10 +144,20 @@
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .topbar-left i {
-            font-size: 24px;
-            color: #334155;
-            cursor: pointer;
+        .toggle-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            border: none;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #2563eb;
+            color: white;
         }
 
         .topbar-right {
@@ -176,11 +220,11 @@
 <body>
 
     {{-- SIDEBAR --}}
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
 
         <div class="logo">
             <i class="fa fa-briefcase me-2"></i>
-            JobPortal
+            <span class="logo-text">JobPortal</span>
         </div>
 
         {{-- TỔNG QUAN --}}
@@ -192,7 +236,7 @@
             class="{{ request()->is('admin/dashboard') ? 'active' : '' }}">
 
             <i class="fa fa-house"></i>
-            Dashboard
+            <span>Dashboard</span>
 
         </a>
 
@@ -205,7 +249,7 @@
             class="{{ request()->is('admin/users') ? 'active' : '' }}">
 
             <i class="fa fa-users"></i>
-            Người dùng
+            <span>Người dùng</span>
 
         </a>
 
@@ -213,7 +257,7 @@
             class="{{ request()->is('admin/jobs') ? 'active' : '' }}">
 
             <i class="fa fa-briefcase"></i>
-            Công việc
+            <span>Công việc</span>
 
         </a>
 
@@ -221,7 +265,7 @@
             class="{{ request()->is('admin/job-types') ? 'active' : '' }}">
 
             <i class="fa fa-layer-group"></i>
-            Job Types
+            <span>Job Types</span>
 
         </a>
 
@@ -229,7 +273,7 @@
             class="{{ request()->is('admin/salaries') ? 'active' : '' }}">
 
             <i class="fa fa-money-bill-wave"></i>
-            Salaries
+            <span>Salaries</span>
 
         </a>
 
@@ -237,7 +281,7 @@
             class="{{ request()->is('admin/skills') ? 'active' : '' }}">
 
             <i class="fa fa-code"></i>
-            Skills
+            <span>Skills</span>
 
         </a>
 
@@ -245,7 +289,7 @@
             class="{{ request()->is('admin/locations') ? 'active' : '' }}">
 
             <i class="fa fa-location-dot"></i>
-            Locations
+            <span>Locations</span>
 
         </a>
 
@@ -253,7 +297,7 @@
             class="{{ request()->is('admin/careers*') ? 'active' : '' }}">
 
             <i class="fa fa-book-open"></i>
-            Career Guides
+            <span>Career Guides</span>
 
         </a>
 
@@ -267,7 +311,7 @@
             <a href="/logout">
 
                 <i class="fa fa-right-from-bracket"></i>
-                Đăng xuất
+                <span>Đăng xuất</span>
 
             </a>
 
@@ -276,13 +320,17 @@
     </div>
 
     {{-- MAIN --}}
-    <div class="main">
+    <div class="main" id="main">
 
         {{-- TOPBAR --}}
         <div class="topbar">
 
             <div class="topbar-left">
-                <i class="fa fa-bars"></i>
+
+                <button class="toggle-btn" id="toggleBtn">
+                    <i class="fa fa-bars"></i>
+                </button>
+
             </div>
 
             <div class="topbar-right">
@@ -320,6 +368,21 @@
         </div>
 
     </div>
+
+    <script>
+
+        const toggleBtn = document.getElementById('toggleBtn');
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main');
+
+        toggleBtn.addEventListener('click', function () {
+
+            sidebar.classList.toggle('collapsed');
+            main.classList.toggle('expanded');
+
+        });
+
+    </script>
 
 </body>
 

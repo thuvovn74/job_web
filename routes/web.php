@@ -136,4 +136,6 @@ Route::prefix('admin')->group(function () {
         [AdminJobPostingController::class, 'updateStatus']);
     Route::get('/jobs/delete/{id}',
         [AdminJobPostingController::class, 'destroy']);
+
+    Route::get('/jobs/show/{id}', [AdminJobPostingController::class, 'show']);
 });

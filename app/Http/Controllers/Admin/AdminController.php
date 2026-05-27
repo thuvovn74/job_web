@@ -13,30 +13,52 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        // TOTAL
         $users = Account::count();
         $jobs = JobPosting::count();
         $careers = CareerGuide::count();
         $skills = Skill::count();
 
-        // biểu đồ jobs theo status
-        $activeJobs = JobPosting::where('status', 1)->count();
-        $hiddenJobs = JobPosting::where('status', 0)->count();
+        // JOB STATUS
+        $approvedJobs = JobPosting::where('status', 1)->count();
+        $pendingJobs = JobPosting::where('status', 0)->count();
+        $hiddenJobs = JobPosting::where('status', 2)->count();
 
-        // biểu đồ applications
+        // APPLICATION STATUS
         $pendingApplications = Application::where('status', 0)->count();
+
         $approvedApplications = Application::where('status', 1)->count();
+
         $rejectedApplications = Application::where('status', 2)->count();
+
+        // LATEST JOBS
+        $latestJobs = JobPosting::with([
+                'category',
+                'employer',
+                'location'
+            ])
+            ->latest('job_id')
+            ->take(5)
+            ->get();
 
         return view('admin.dashboard', compact(
             'users',
             'jobs',
             'careers',
             'skills',
-            'activeJobs',
+
+            // JOB STATUS
+            'approvedJobs',
+            'pendingJobs',
             'hiddenJobs',
+
+            // APPLICATION STATUS
             'pendingApplications',
             'approvedApplications',
-            'rejectedApplications'
+            'rejectedApplications',
+
+            // TABLE
+            'latestJobs'
         ));
     }
 }
