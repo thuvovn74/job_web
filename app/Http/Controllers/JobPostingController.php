@@ -112,7 +112,7 @@ class JobPostingController extends EmployerBaseController
             'benefits' => $request->benefits,
             'deadline' => $request->deadline,
             'posted_date' => now(),
-            'status' => 1
+            'status' => 0
         ]);
 
         return redirect('/employer/jobs')->with('success', 'Đăng tuyển thành công');

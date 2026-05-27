@@ -89,6 +89,7 @@ use App\Http\Controllers\Admin\AdminSalaryController;
 use App\Http\Controllers\Admin\AdminSkillController;
 use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Controllers\Admin\AdminCareerGuideController;
+use App\Http\Controllers\Admin\AdminJobPostingController;
 
 Route::prefix('admin')->group(function () {
 
@@ -129,4 +130,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/careers/edit/{id}', [AdminCareerGuideController::class, 'edit']);
     Route::post('/careers/update/{id}', [AdminCareerGuideController::class, 'update']);
     Route::get('/careers/delete/{id}', [AdminCareerGuideController::class, 'destroy']);
+
+    Route::get('/jobs', [AdminJobPostingController::class, 'index']);
+    Route::post('/jobs/update-status/{id}',
+        [AdminJobPostingController::class, 'updateStatus']);
+    Route::get('/jobs/delete/{id}',
+        [AdminJobPostingController::class, 'destroy']);
 });
